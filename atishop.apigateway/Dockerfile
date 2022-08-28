@@ -7,7 +7,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/atishop.apigateway"
 RUN dotnet build "atishop.apigateway.csproj" -c Release -o /app/build
 
 FROM build AS publish

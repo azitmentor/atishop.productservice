@@ -8,7 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/atishop.customer"
 RUN dotnet build "atishop.customer.csproj" -c Release -o /app/build
 
 FROM build AS publish

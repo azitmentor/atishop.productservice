@@ -6,10 +6,8 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["atishop.product.csproj", "."]
-RUN dotnet restore "./atishop.product.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/atishop.product"
 RUN dotnet build "atishop.product.csproj" -c Release -o /app/build
 
 FROM build AS publish
