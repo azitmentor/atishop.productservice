@@ -28,21 +28,24 @@ jobs:
       - name: Build and push atishop.product
         uses: docker/build-push-action@v3
         with:
-          context: ./atishop.product
+          context: .
+          file: ./atishop.product/Dockerfile
 #          platforms: linux/amd64,linux/arm64
           push: true
           tags: azitmentor/atishop.product
       - name: Build and push atishop.gateway
         uses: docker/build-push-action@v3
         with:
-          context: ./atishop.apigateway
+          context: .
+          file: ./atishop.apigateway/Dockerfile
 #          platforms: linux/amd64,linux/arm64
           push: true
           tags: azitmentor/atishop.apigateway
       - name: Build and push atishop.customer
         uses: docker/build-push-action@v3
         with:
-          context: ./atishop.customer
+          context: .
+          file: ./atishop.customer/Dockerfile
 #          platforms: linux/amd64,linux/arm64
           push: true
           tags: azitmentor/atishop.customer
