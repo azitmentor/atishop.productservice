@@ -1,0 +1,60 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: atishopapigateway
+  namespace: default
+  labels:
+    app: atishopapigateway
+  annotations:
+    deployment.kubernetes.io/revision: '1'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: atishopapigateway
+  template:
+    metadata:
+      labels:
+        app: atishopapigateway
+    spec:
+      containers:
+        - name: atishopapigateway
+          image: azitmentor/atishop.apigateway
+          imagePullPolicy: Always
+      restartPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: atishopapigateway-service
+  namespace: default
+  labels:
+    app: atishopapigateway
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+  selector:
+    app: atishopapigateway
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: atishopapigateway-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+
+  rules:
+    - host: apigateway.laky.ovh
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  atishopapigateway-service
+                port:
+                  number: 80

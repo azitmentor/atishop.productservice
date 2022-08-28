@@ -1,0 +1,64 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: atishopproduct
+  namespace: default
+  labels:
+    app: atishopproduct
+  annotations:
+    deployment.kubernetes.io/revision: '1'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: atishopproduct
+  template:
+    metadata:
+      labels:
+        app: atishopproduct
+    spec:
+      containers:
+        - name: atishopproduct
+          env:
+            - name: ConnectionStrings__Main
+              value: Host=172.17.0.1;Database=mydb
+          image: azitmentor/atishop.product
+          imagePullPolicy: Always
+
+      restartPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: atishopproduct-service
+  namespace: default
+  labels:
+    app: atishopproduct
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+  selector:
+    app: atishopproduct
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: atishopproduct-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+
+  rules:
+    - host: product.laky.ovh
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  atishopproduct-service
+                port:
+                  number: 80

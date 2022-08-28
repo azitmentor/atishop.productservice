@@ -1,0 +1,42 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: atishopcustomer
+  namespace: default
+  labels:
+    app: atishopcustomer
+  annotations:
+    deployment.kubernetes.io/revision: '1'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: atishopcustomer
+  template:
+    metadata:
+      labels:
+        app: atishopcustomer
+    spec:
+      containers:
+        - name: atishopcustomer
+          image: azitmentor/atishop.customer
+          imagePullPolicy: Always
+      restartPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: atishopcustomer-service
+  namespace: default
+  labels:
+    app: atishopcustomer
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+      name: http
+    - protocol: TCP
+      port: 443
+      name: https
+  selector:
+    app: atishopcustomer
