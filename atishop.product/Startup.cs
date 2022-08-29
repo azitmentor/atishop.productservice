@@ -34,6 +34,16 @@ namespace atishop.product
 
 			services.AddHttpClient();
 
+			services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+			{
+				builder
+				.AllowAnyMethod()
+				.AllowAnyHeader().WithOrigins("http://admin.laky.ovh").WithOrigins("https://app.idopontmester.hu")
+				.WithOrigins("http://localhost:5173").SetIsOriginAllowed((p) => true).AllowCredentials();
+			}));
+
+
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +55,8 @@ namespace atishop.product
 			}
 
 			app.UseRouting();
+
+			app.UseCors("CorsPolicy");
 
 			app.UseAuthorization();
 
