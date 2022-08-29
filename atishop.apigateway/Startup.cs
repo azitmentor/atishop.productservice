@@ -26,6 +26,16 @@ namespace atishop.apigateway
 		{
 			services.AddControllers();
 			services.AddHttpClient();
+
+			services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+			{
+				builder
+				.AllowAnyMethod()
+				.AllowAnyHeader().WithOrigins("http://admin.laky.ovh").WithOrigins("https://app.idopontmester.hu")
+				.WithOrigins("http://localhost:5173");
+			}));
+
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +48,8 @@ namespace atishop.apigateway
 
 			app.UseRouting();
 
+			app.UseCors("CorsPolicy"); 
+			
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
