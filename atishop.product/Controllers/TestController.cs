@@ -14,7 +14,7 @@ namespace atishop.product.Controllers
 	{
 		private static readonly string[] Summaries = new[]
 		{
-			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+			"Freezing1", "Scorching"
 		};
 
 		private readonly ILogger<TestController> _logger;
