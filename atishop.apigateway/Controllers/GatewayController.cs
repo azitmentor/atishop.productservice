@@ -65,5 +65,21 @@ namespace atishop.apigateway.Controllers
 							  new HelloRequest { Name = "GreeterClient" });
 			return reply.Message;
 		}
+
+		[HttpGet("grpc2")]
+		public async Task<string> GetGRPC2Async()
+		{
+			var httpHandler = new HttpClientHandler();
+			// Return `true` to allow certificates that are untrusted/invalid
+			httpHandler.ServerCertificateCustomValidationCallback =
+				HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+
+			// The port number must match the port of the gRPC server.
+			using var channel = GrpcChannel.ForAddress("https://atishopcustomer-service", new GrpcChannelOptions() { HttpHandler = httpHandler });
+			var client = new Greeter.GreeterClient(channel);
+			var reply = await client.SayHelloAsync(
+							  new HelloRequest { Name = "GreeterClient" });
+			return reply.Message;
+		}
 	}
 }
