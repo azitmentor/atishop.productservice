@@ -59,7 +59,7 @@ namespace atishop.apigateway.Controllers
 		public async Task<string> GetGRPCAsync()
 		{
 			// The port number must match the port of the gRPC server.
-			using var channel = GrpcChannel.ForAddress("https://atishopcustomer-service");
+			using var channel = GrpcChannel.ForAddress("https://atishopcustomer-service", new GrpcChannelOptions() { Credentials = Grpc.Core.ChannelCredentials.Insecure });
 			var client = new Greeter.GreeterClient(channel);
 			var reply = await client.SayHelloAsync(
 							  new HelloRequest { Name = "GreeterClient" });
